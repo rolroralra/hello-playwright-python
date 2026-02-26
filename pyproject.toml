@@ -1,0 +1,35 @@
+[project]
+name = "hello-playwright-python"
+version = "0.1.0"
+description = "Playwright Python 교육 프로젝트"
+requires-python = ">=3.12"
+dependencies = [
+    "pytest>=8.3.5",
+    "pytest-playwright>=0.6.2",
+    "playwright>=1.50.0",
+    "pytest-html>=4.1.1",
+    "python-dotenv>=1.0.1",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+# 기본 브라우저: chromium, firefox, webkit 중 선택
+# addopts = "--browser chromium"
+
+# HTML 리포트 생성
+# addopts = "--html=reports/report.html --self-contained-html"
+
+# 느린 동작 확인용 (ms 단위)
+# addopts = "--headed --slowmo 500"
+
+markers = [
+    "smoke: 빠르게 돌리는 핵심 시나리오",
+    "regression: 전체 회귀 테스트",
+    "api: API 레이어 테스트",
+    "ui: UI 레이어 테스트",
+    "e2e: 엔드투엔드 시나리오",
+]
