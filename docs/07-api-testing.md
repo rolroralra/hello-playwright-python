@@ -240,10 +240,10 @@ def test_create_todo(self, api_request_context: APIRequestContext) -> None:
 
 ```bash
 # API 테스트 실행 (브라우저 불필요)
-pytest tests/06_api/ -v
+uv run pytest tests/06_api/ -v
 
 # 마커로 실행
-pytest -m api -v
+uv run pytest -m api -v
 ```
 
 ---

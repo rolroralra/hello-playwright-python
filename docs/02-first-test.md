@@ -108,16 +108,16 @@ def test_browser_context_isolation(self, browser) -> None:
 
 ```bash
 # 전체 실행
-pytest tests/01_basic/ -v
+uv run pytest tests/01_basic/ -v
 
 # 브라우저 화면 보기
-pytest tests/01_basic/ -v --headed
+uv run pytest tests/01_basic/ -v --headed
 
 # 특정 테스트만 실행
-pytest tests/01_basic/test_first_playwright.py::TestFirstPlaywright::test_page_title -v
+uv run pytest tests/01_basic/test_first_playwright.py::TestFirstPlaywright::test_page_title -v
 
 # Firefox로 실행
-pytest tests/01_basic/ -v --browser firefox
+uv run pytest tests/01_basic/ -v --browser firefox
 ```
 
 ### 실행 결과 예시
@@ -139,16 +139,52 @@ tests/01_basic/test_first_playwright.py::TestFirstPlaywright::test_viewport_size
 
 ```bash
 # Playwright Inspector GUI 실행
-PWDEBUG=1 pytest tests/01_basic/ --headed
+PWDEBUG=1 uv run pytest tests/01_basic/ --headed
 ```
 
 ### 코드 생성기 (Codegen)
 
 브라우저를 직접 조작하면서 코드를 자동 생성해주는 도구입니다.
+실행하면 브라우저 창과 Playwright Inspector 창이 함께 열리고, 클릭/입력 등의 동작이 실시간으로 코드로 기록됩니다.
 
 ```bash
-playwright codegen https://playwright.dev
+# 기본 실행 (Python 동기 API 코드 생성)
+uv run playwright codegen https://playwright.dev
+
+# pytest 형식으로 생성
+uv run playwright codegen --target python-pytest https://demo.playwright.dev/todomvc
+
+# 생성된 코드를 파일로 저장
+uv run playwright codegen --target python-pytest -o tests/test_generated.py https://demo.playwright.dev/todomvc
 ```
+
+#### 자주 쓰는 옵션
+
+| 옵션 | 설명 | 예시 |
+|------|------|------|
+| `--target` | 생성할 코드 형식 (`python`, `python-async`, `python-pytest` 등) | `--target python-pytest` |
+| `-o, --output` | 생성된 코드를 파일로 저장 | `-o tests/test_generated.py` |
+| `-b, --browser` | 브라우저 선택 (`chromium`, `firefox`, `webkit`) | `-b webkit` |
+| `--device` | 모바일 기기 에뮬레이션 | `--device "iPhone 13"` |
+| `--viewport-size` | 뷰포트 크기 지정 | `--viewport-size "1280,720"` |
+| `--save-storage` | 종료 시 쿠키/로컬스토리지 상태 저장 | `--save-storage auth.json` |
+| `--load-storage` | 저장된 상태를 불러와 시작 (로그인 상태 재사용) | `--load-storage auth.json` |
+| `--test-id-attribute` | 테스트 ID로 사용할 속성 지정 | `--test-id-attribute data-qa` |
+
+#### 로그인 상태 재사용 예시
+
+```bash
+# 1. 로그인까지 직접 진행한 뒤 창을 닫으면 auth.json에 상태가 저장됨
+uv run playwright codegen --save-storage auth.json https://example.com/login
+
+# 2. 저장된 로그인 상태로 바로 기록 시작
+uv run playwright codegen --load-storage auth.json https://example.com/dashboard
+```
+
+> **주의**: Codegen이 만든 코드는 출발점일 뿐입니다. 생성된 셀렉터를 `get_by_role()` 같은 의미 기반 로케이터로 다듬고([03. 셀렉터](./03-selectors.md) 참고), 단언(`expect`)을 직접 추가해야 테스트로서 의미가 있습니다.
+> `auth.json`에는 세션 쿠키가 들어 있으므로 `.gitignore`에 추가하세요.
+
+전체 옵션은 `uv run playwright codegen --help`로 확인할 수 있습니다.
 
 ---
 

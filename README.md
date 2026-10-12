@@ -91,6 +91,9 @@ uv run pytest --browser webkit
 # 디버그 모드 (Inspector GUI)
 PWDEBUG=1 uv run pytest tests/08_e2e/ --headed
 
+# 코드 생성기 (브라우저 조작을 pytest 코드로 기록)
+uv run playwright codegen --target python-pytest https://demo.playwright.dev/todomvc
+
 # 비디오 + 스크린샷 (CI용)
 uv run pytest -m e2e --video=retain-on-failure --screenshot=only-on-failure --output=test-results
 

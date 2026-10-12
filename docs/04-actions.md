@@ -175,7 +175,7 @@ def test_add_and_complete_todo(self, todo_page: Page) -> None:
 ## 테스트 실행
 
 ```bash
-pytest tests/03_actions/ -v --headed
+uv run pytest tests/03_actions/ -v --headed
 ```
 
 ---

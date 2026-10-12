@@ -105,9 +105,9 @@ def test_user_api(api: APIRequestContext) -> None:
 
 ```bash
 # 마커로 선택 실행
-pytest -m smoke
-pytest -m "api and not slow"
-pytest -m "e2e or regression"
+uv run pytest -m smoke
+uv run pytest -m "api and not slow"
+uv run pytest -m "e2e or regression"
 ```
 
 ---
@@ -169,20 +169,20 @@ addopts = --browser chromium
 ### 커맨드라인 옵션
 
 ```bash
-pytest --browser chromium       # 브라우저 선택
-pytest --browser firefox
-pytest --browser webkit
+uv run pytest --browser chromium       # 브라우저 선택
+uv run pytest --browser firefox
+uv run pytest --browser webkit
 
-pytest --headed                  # 브라우저 화면 표시
-pytest --slowmo 500              # 500ms 지연
+uv run pytest --headed                  # 브라우저 화면 표시
+uv run pytest --slowmo 500              # 500ms 지연
 
-pytest --video=on                # 비디오 녹화
-pytest --tracing=on              # 트레이스 수집
+uv run pytest --video=on                # 비디오 녹화
+uv run pytest --tracing=on              # 트레이스 수집
 
-pytest --screenshot=on           # 스크린샷 (실패 시)
-pytest --screenshot=only-on-failure
+uv run pytest --screenshot=on           # 스크린샷 (실패 시)
+uv run pytest --screenshot=only-on-failure
 
-pytest --output=test-results     # 출력 디렉토리
+uv run pytest --output=test-results     # 출력 디렉토리
 ```
 
 ---
@@ -191,13 +191,13 @@ pytest --output=test-results     # 출력 디렉토리
 
 ```bash
 # 비디오 녹화
-pytest --video=on --output=test-results
+uv run pytest --video=on --output=test-results
 
 # 트레이스 수집 (Playwright Trace Viewer로 분석)
-pytest --tracing=on --output=test-results
+uv run pytest --tracing=on --output=test-results
 
 # 트레이스 뷰어 열기
-playwright show-trace test-results/trace.zip
+uv run playwright show-trace test-results/trace.zip
 ```
 
 ---
@@ -205,10 +205,10 @@ playwright show-trace test-results/trace.zip
 ## HTML 리포트
 
 ```bash
-pip install pytest-html
+# pytest-html은 pyproject.toml에 이미 포함되어 있음 (uv sync로 설치됨)
 
 # 리포트 생성
-pytest --html=reports/report.html --self-contained-html
+uv run pytest --html=reports/report.html --self-contained-html
 ```
 
 ---
@@ -216,13 +216,13 @@ pytest --html=reports/report.html --self-contained-html
 ## 병렬 실행
 
 ```bash
-pip install pytest-xdist
+uv add --dev pytest-xdist
 
 # 4개 프로세스로 병렬 실행
-pytest -n 4
+uv run pytest -n 4
 
 # CPU 수만큼 자동 설정
-pytest -n auto
+uv run pytest -n auto
 ```
 
 ---

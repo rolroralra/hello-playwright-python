@@ -165,7 +165,7 @@ def test_filter_by_text(self, todo_page: Page) -> None:
 ## 테스트 실행
 
 ```bash
-pytest tests/02_selectors/ -v --headed
+uv run pytest tests/02_selectors/ -v --headed
 ```
 
 ---

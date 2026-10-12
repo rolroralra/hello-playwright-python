@@ -138,13 +138,13 @@ def api(playwright: Playwright) -> APIRequestContext:
 
 ```bash
 # 로컬 개발
-BASE_URL=http://localhost:3000 pytest -m e2e
+BASE_URL=http://localhost:3000 uv run pytest -m e2e
 
 # 스테이징 환경
-BASE_URL=https://staging.myapp.com pytest -m e2e
+BASE_URL=https://staging.myapp.com uv run pytest -m e2e
 
 # 프로덕션 (smoke test만)
-BASE_URL=https://myapp.com pytest -m smoke
+BASE_URL=https://myapp.com uv run pytest -m smoke
 ```
 
 ---
@@ -205,15 +205,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
         with:
           python-version: '3.12'
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
-          playwright install --with-deps chromium
+          uv sync --locked
+          uv run playwright install --with-deps chromium
 
       - name: Start app (if needed)
         run: docker-compose up -d
@@ -222,7 +222,7 @@ jobs:
         env:
           BASE_URL: http://localhost:3000
         run: |
-          pytest -m "smoke or e2e" \
+          uv run pytest -m "smoke or e2e" \
             --browser chromium \
             --screenshot=only-on-failure \
             --video=retain-on-failure \
@@ -262,7 +262,7 @@ expect(page.get_by_role("button")).to_be_visible(timeout=10_000)
 # pytest.ini
 [pytest]
 # 실패한 테스트 2번 재시도
-# pip install pytest-rerunfailures 필요
+# uv add --dev pytest-rerunfailures 필요
 addopts = --reruns 2 --reruns-delay 1
 ```
 
@@ -314,16 +314,16 @@ class TestCriticalPath:
 
 ```bash
 # 전체 E2E 테스트
-pytest tests/08_e2e/ -v --headed
+uv run pytest tests/08_e2e/ -v --headed
 
 # smoke 테스트만 (빠른 검증)
-pytest -m smoke -v
+uv run pytest -m smoke -v
 
 # 비디오 녹화와 함께
-pytest tests/08_e2e/ -v --video=on --output=test-results
+uv run pytest tests/08_e2e/ -v --video=on --output=test-results
 
 # 실패 시 스크린샷
-pytest tests/08_e2e/ -v --screenshot=only-on-failure
+uv run pytest tests/08_e2e/ -v --screenshot=only-on-failure
 ```
 
 ---

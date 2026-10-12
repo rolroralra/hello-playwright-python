@@ -213,7 +213,7 @@ def test_route_mock_response(self, page: Page) -> None:
 ## 테스트 실행
 
 ```bash
-pytest tests/05_waiting/ -v --headed
+uv run pytest tests/05_waiting/ -v --headed
 ```
 
 ---

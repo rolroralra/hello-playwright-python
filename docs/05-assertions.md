@@ -191,7 +191,7 @@ def test_to_be_checked(self, todo_page: Page) -> None:
 ## 테스트 실행
 
 ```bash
-pytest tests/04_assertions/ -v --headed
+uv run pytest tests/04_assertions/ -v --headed
 ```
 
 ---

@@ -60,7 +60,7 @@ class TestTextSelector:
         page.goto("https://playwright.dev")
 
         # 정확히 일치하는 텍스트
-        element = page.get_by_text("Playwright enables reliable end-to-end testing")
+        element = page.get_by_text("Playwright enables reliable web automation")
         expect(element).to_be_visible()
 
     def test_get_by_text_partial(self, page: Page) -> None:

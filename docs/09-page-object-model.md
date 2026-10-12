@@ -206,7 +206,7 @@ class LoginPage(BasePage):
 ## 테스트 실행
 
 ```bash
-pytest tests/07_pom/ -v --headed
+uv run pytest tests/07_pom/ -v --headed
 ```
 
 ---
